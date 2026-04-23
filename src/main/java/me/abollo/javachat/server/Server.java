@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Flujo:
@@ -26,10 +26,10 @@ public class Server {
     static final int PUERTO = 5000;
 
 
-    //Se rellena una lista con todos los clientes conectados, statica porque la lista es
+    //Se rellena un diccionario con todos los clientes conectados, statica porque la lista es
     //compartida con todos los hilos de clientes
 
-    static List<PrintWriter> clientes = new ArrayList<>();
+    static Map<String, PrintWriter> clientes = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException {
         System.out.println("Servidor iniciado en el puerto: " + PUERTO);
@@ -60,21 +60,26 @@ public class Server {
 
     public static synchronized void broadcast(String msg) {
         System.out.println("[BROADCAST]: " + msg);
-        for (PrintWriter saida : clientes) {
-            saida.println(msg);
+        for (PrintWriter salida : clientes.values()) {
+            salida.println(msg);
         }
     }
 
     //Añade un cliente a la lista (llamado desde HiloCliente al conectar)
-    public static synchronized void agregarCliente(PrintWriter saida) {
-        clientes.add(saida);
+    public static synchronized void agregarCliente(String nombre, PrintWriter salida) {
+        clientes.put(nombre, salida);
     }
 
 
     // Quita un cliente de la lista (lo llamamos desde el HiloCliente al desconectar)
-    public static synchronized void borrarCliente(PrintWriter saida) {
-        clientes.remove(saida);
+    public static synchronized void borrarCliente(String nombre, PrintWriter salida) {
+        clientes.remove(nombre, salida);
     }
 
+    public static synchronized void enviarListaA(PrintWriter destinatario) {
+        for (String nombre : clientes.keySet()) {
+            destinatario.println("JOINED:" + nombre);
+        }
+    }
 
 }

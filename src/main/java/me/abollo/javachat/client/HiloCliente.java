@@ -36,17 +36,18 @@ public class HiloCliente implements Runnable {
             BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             salida = new PrintWriter(socket.getOutputStream(), true);
 
-            // Registramos el cliente en la lista del servidor:
-
-            Server.agregarCliente(salida);
-
             //Primer mensaje recibido el nombre de usuario:
 
             nombre = entrada.readLine();
             if (nombre == null || nombre.isEmpty()) nombre = "Anónimo";
 
-            System.out.println("Cliente registrado: " + nombre);
-            Server.broadcast("JOINED:" + nombre);
+            // Registramos el cliente en la lista del servidor:
+
+            Server.enviarListaA(salida); //se le envia la lista al nuevo cliente
+            Server.agregarCliente(nombre, salida);
+            Server.broadcast("JOINED:" + nombre); // a todos: ha llegado alguien
+
+            System.out.println("Cliente registrado: " + nombre + " correctamente");
 
 
 
@@ -66,7 +67,7 @@ public class HiloCliente implements Runnable {
         } finally {
             //Limpieza, siempre se ejecuta
 
-            Server.borrarCliente(salida);
+            Server.borrarCliente(nombre, salida);
             Server.broadcast("LEFT:" + nombre);
             try {
                 socket.close();
