@@ -47,6 +47,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.42</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
