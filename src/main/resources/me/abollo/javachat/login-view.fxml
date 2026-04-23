@@ -70,7 +70,7 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <TextField fx:id="ipAdress" promptText="Ej: localhost:5000" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="ipAdress" promptText="Ej: localhost" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -80,7 +80,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="statusLabel" text="STATUS" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="statusLabel" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
