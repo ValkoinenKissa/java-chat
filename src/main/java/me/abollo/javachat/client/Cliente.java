@@ -1,4 +1,4 @@
-package me.abollo.javachat;
+package me.abollo.javachat.client;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 
-public class ChatController {
+public class Cliente {
 
     //Componentes de la UI
 
@@ -78,10 +78,10 @@ public class ChatController {
             Parent root = loader.load();
 
             // Obtener el controller que creo el loader
-            ChatController chatController = loader.getController();
+            Cliente cliente = loader.getController();
 
             // Inyectar la conexión
-            chatController.startConnection(socket, salida, nombre);
+            cliente.startConnection(socket, salida, nombre);
 
             // Abre la ventana
             Stage stage = new Stage();

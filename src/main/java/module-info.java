@@ -8,4 +8,6 @@ module me.abollo.javachat {
 
     opens me.abollo.javachat to javafx.fxml;
     exports me.abollo.javachat;
+    exports me.abollo.javachat.client;
+    opens me.abollo.javachat.client to javafx.fxml;
 }

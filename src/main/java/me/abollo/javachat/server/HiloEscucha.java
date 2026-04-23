@@ -1,7 +1,7 @@
 package me.abollo.javachat.server;
 
 
-import me.abollo.javachat.ChatController;
+import me.abollo.javachat.client.Cliente;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,9 +21,9 @@ import java.net.Socket;
 public class HiloEscucha implements Runnable{
 
     private final Socket socket;
-    private final ChatController cliente;
+    private final Cliente cliente;
 
-    public HiloEscucha(Socket socket, ChatController cliente) {
+    public HiloEscucha(Socket socket, Cliente cliente) {
         this.socket = socket;
         this.cliente = cliente;
     }
