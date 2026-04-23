@@ -12,9 +12,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.abollo.javachat.ChatController">
    <bottom>
-      <Button fx:id="connectButton" mnemonicParsing="false" text="Conectar" BorderPane.alignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#connectButton" text="Conectar" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="20.0" />
          </BorderPane.margin>
@@ -65,7 +65,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="userField" promptText="Ej: abollo"  GridPane.columnIndex="1">
+            <TextField fx:id="userField" promptText="Ej: abollo" GridPane.columnIndex="1">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -80,7 +80,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="statusLabel"  text="STATUS" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="statusLabel" text="STATUS" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
