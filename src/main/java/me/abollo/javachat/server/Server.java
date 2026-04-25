@@ -81,5 +81,10 @@ public class Server {
             destinatario.println("JOINED:" + nombre);
         }
     }
+    //Función para enviar un mensaje a un usuario en específico
+    public static synchronized void enviarA(String destinatario, String msg) {
+        PrintWriter salidaDestinatario = clientes.get(destinatario);
+        if (salidaDestinatario != null) salidaDestinatario.println(msg);
+    }
 
 }
