@@ -43,13 +43,25 @@ public class Cliente {
     //Red
     private PrintWriter salida;
     private boolean conectado = false;
+    private String destinatario;
+
+    //Impedirme hablar conmigo mismo
+    private String miNombre;
+
+
 
     // Envía el texto del campo al servidor.
     @FXML
     private void sendButton() {
         String texto = messageTf.getText().trim();
         if (texto.isEmpty() || !conectado) return;
-        salida.println(texto);
+        if (destinatario == null) return;
+        //Evitar mandarme mensajes a mi mismo
+        if (destinatario.equals(miNombre)) {
+            chatTa.appendText("No puedes enviarte mensajes a ti mismo.\n");
+            return;
+        }
+        salida.println("TO:" + destinatario + ":" + texto);
         messageTf.clear();
     }
 
@@ -93,7 +105,6 @@ public class Cliente {
             ((Stage) userField.getScene().getWindow()).close();
 
 
-
         } catch (IOException e) {
             statusLabel.setText("No se pudo conectar: " + e.getMessage());
         }
@@ -102,6 +113,7 @@ public class Cliente {
     public void startConnection(Socket socket, PrintWriter salida, String nombre) {
         this.salida = salida;
         this.conectado = true;
+        this.miNombre = nombre;
 
         // lanzamos el hilo de escucha sobre el controller
         Thread hilo = new Thread(new HiloEscucha(socket, this));
@@ -110,6 +122,20 @@ public class Cliente {
 
         // Enviamos el nombre al servidor
         salida.println(nombre);
+
+        //Cuando el usuario hace clic en un nombre del ListView, recogemos la acción para nuevo conectar el chat
+
+        //observable el propio objeto que está siendo observado (la propiedad en sí)
+        // oldValue el valor que estaba seleccionado antes del clic.
+        //new value el nuevo usuario seleccionado
+        userList.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        destinatario = newValue;
+                        //Limpiamos la antigua sesión de chat
+                        chatTa.clear();
+                    }
+                });
     }
 
     public void addCurrentConectedUser(String user) {

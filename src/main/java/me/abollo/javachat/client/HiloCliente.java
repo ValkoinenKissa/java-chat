@@ -59,7 +59,17 @@ public class HiloCliente implements Runnable {
 
             String linea;
             while ((linea = entrada.readLine()) != null) {
-                Server.broadcast("MSG:" + nombre + ": " + linea);
+                if (linea.startsWith("TO:")) {
+                    String[] partes = linea.split(":", 3);
+                    // partes[0] = "TO", partes[1] = destinatario, partes[2] = texto
+                    String dest = partes[1];
+                    String texto = partes[2];
+
+                    //Enviar al destinatario
+                    Server.enviarA(dest, "MSG:" + nombre + ": " + texto);
+                    // Envía también al emisor para que vea su propio mensaje
+                    Server.enviarA(nombre, "MSG:" + nombre + ": " + texto);
+                }
             }
 
         }catch (Exception e){
