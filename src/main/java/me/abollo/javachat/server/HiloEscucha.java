@@ -8,16 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-/**
- * <p>
- * Sin este hilo, la UI se congelaría esperando mensajes.
- * <p>
- * CONCEPTOS CLAVE:
- *   - Lee líneas del servidor en bucle infinito
- *   - Llama a cliente.recibirMensaje() → que usa Platform.runLater() para
- *     actualizar el TextArea desde el hilo correcto
- */
-
 public class HiloEscucha implements Runnable{
 
     private final Socket socket;

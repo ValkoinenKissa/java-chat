@@ -9,16 +9,7 @@ import java.net.Socket;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Flujo:
- *   1. Abre un ServerSocket en el puerto 5000 y espera conexiones.
- *   2. Por cada cliente que entra, lanza un HiloCliente en un Thread separado.
- *   3. Mantiene una lista de todos los clientes conectados para hacer broadcast.
- * <p>
- *   - ServerSocket.accept() → bloquea hasta que llega un cliente
- *   - Un Thread por cliente → el servidor puede atender varios a la vez
- *   - synchronized → protege la lista compartida de accesos concurrentes
- */
+
 public class Server {
 
     //Definimos el puerto

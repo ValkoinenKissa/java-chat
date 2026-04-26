@@ -7,23 +7,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-/**
- * Cada vez que un cliente conecta, el Servidor crea un HiloCliente.
- * Este hilo se encarga de:
- *   1. Pedir el nombre al cliente.
- *   2. Escuchar sus mensajes en bucle.
- *   3. Hacer broadcast de cada mensaje a todos.
- *   4. Limpiar cuando el cliente se va.
- * <p>
- *   - Implements Runnable → lo que ejecuta el Thread
- *   - BufferedReader / PrintWriter → leer y escribir texto por el socket
- *   - El bucle while lee líneas hasta que el cliente cierra la conexión (null)
- */
+
 public class HiloCliente implements Runnable {
 
     private final Socket socket;
     private String nombre;
-    private PrintWriter salida;
+    private PrintWriter clienteTarget;
 
     public HiloCliente(Socket socket) {
         this.socket = socket;
@@ -34,7 +23,7 @@ public class HiloCliente implements Runnable {
         // Streams para leer y escribir texto por el socket
         try{
             BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            salida = new PrintWriter(socket.getOutputStream(), true);
+            clienteTarget = new PrintWriter(socket.getOutputStream(), true);
 
             //Primer mensaje recibido el nombre de usuario:
 
@@ -43,8 +32,8 @@ public class HiloCliente implements Runnable {
 
             // Registramos el cliente en la lista del servidor:
 
-            Server.enviarListaA(salida); //se le envia la lista al nuevo cliente
-            Server.agregarCliente(nombre, salida);
+            Server.enviarListaA(clienteTarget); //se le envia la lista al nuevo cliente
+            Server.agregarCliente(nombre, clienteTarget);
             Server.broadcast("JOINED:" + nombre); // a todos: ha llegado alguien
 
             System.out.println("Cliente registrado: " + nombre + " correctamente");
@@ -55,7 +44,6 @@ public class HiloCliente implements Runnable {
 
             // readLine() bloquea esperando un mensaje.
             // Devuelve null cuando el cliente cierra la conexión.
-
 
             String linea;
             while ((linea = entrada.readLine()) != null) {
@@ -75,9 +63,7 @@ public class HiloCliente implements Runnable {
         }catch (Exception e){
             System.out.println("Conexión perdida con: " + nombre);
         } finally {
-            //Limpieza, siempre se ejecuta
-
-            Server.borrarCliente(nombre, salida);
+            Server.borrarCliente(nombre, clienteTarget);
             Server.broadcast("LEFT:" + nombre);
             try {
                 socket.close();

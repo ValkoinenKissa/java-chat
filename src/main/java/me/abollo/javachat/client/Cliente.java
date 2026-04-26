@@ -92,7 +92,7 @@ public class Cliente {
             // Obtener el controller que creo el loader
             Cliente cliente = loader.getController();
 
-            // Inyectar la conexión
+            // Empezar la conexion con los datos recogidos
             cliente.startConnection(socket, salida, nombre);
 
             // Abre la ventana
@@ -115,17 +115,17 @@ public class Cliente {
         this.conectado = true;
         this.miNombre = nombre;
 
-        // lanzamos el hilo de escucha sobre el controller
+        // hilo de escucha sobre el controller
         Thread hilo = new Thread(new HiloEscucha(socket, this));
+        //El hilo muere automáticamente cuando se cierra la aplicación
         hilo.setDaemon(true);
         hilo.start();
 
         // Enviamos el nombre al servidor
         salida.println(nombre);
 
-        //Cuando el usuario hace clic en un nombre del ListView, recogemos la acción para nuevo conectar el chat
+        //Cuando el usuario hace clic en un nombre del ListView, recogemos la acción para luego conectar el chat
 
-        //observable el propio objeto que está siendo observado (la propiedad en sí)
         // oldValue el valor que estaba seleccionado antes del clic.
         //new value el nuevo usuario seleccionado
         userList.getSelectionModel().selectedItemProperty().addListener(
